@@ -1,0 +1,41 @@
+name: Validate Docs
+
+on:
+  pull_request:
+    paths: ['docs/**', '**.md']
+  push:
+    branches: [main]
+    paths: ['docs/**', '**.md']
+
+jobs:
+  lint-markdown:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: '**/*.md'
+
+  check-links:
+    name: Check Internal Links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v1
+        with:
+          args: --verbose --no-progress './**/*.md'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  validate-adrs:
+    name: Validate ADR Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check ADR required fields
+        run: |
+          for f in docs/architecture/adr/ADR-*.md; do
+            grep -q "Status" "$f" || (echo "FAIL $f" && exit 1)
+            grep -q "Date"   "$f" || (echo "FAIL $f" && exit 1)
+          done && echo "All ADRs valid"
