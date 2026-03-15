@@ -1,0 +1,21 @@
+# CODEOWNERS
+# Defines required reviewers per directory.
+# Merge requires approval from the listed team/user.
+
+# Executive communications — exec team only
+docs/exec-communications/ @Shalin-Shekhar
+
+# Architecture — senior engineers + CTO sign-off
+docs/architecture/ @Shalin-Shekhar
+
+# Design docs — engineering leads
+docs/design/ @Shalin-Shekhar
+
+# Source code — engineering team
+src/ @Shalin-Shekhar
+
+# Infrastructure — infra team
+infra/ @Shalin-Shekhar
+
+# GitHub config — repo admins only
+.github/ @Shalin-Shekhar
